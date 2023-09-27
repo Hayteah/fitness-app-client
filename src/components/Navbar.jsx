@@ -1,42 +1,55 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext } from "react"
 import { AuthContext } from "../context/auth.context";
+import { Button, Typography, Box } from "@mui/material";
 
 function Navbar() {
-  // Subscribe to the AuthContext to gain access to
-  // the values from AuthContext.Provider `value` prop
+ 
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
-
+  const checkThisButtton = () => {
+    console.log("I am working!");
+  };
   return (
-    <nav>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "10px",
+      }}
+    >
       <Link to="/">
-        <button>Home</button>
+        <Button variant="contained">Home</Button>
       </Link>
 
       {isLoggedIn && (
         <>
-          <Link to="/projects">
-            <button>Projects</button>
+          <Link to="/workouts">
+            <Button variant="contained" onClick={() => checkThisButtton}>
+              Workouts
+            </Button>
           </Link>
 
-          <button onClick={logOutUser}>Logout</button>
-          <span>{user && user.name}</span>
+          <Button variant="contained" onClick={logOutUser}>
+            Logout
+          </Button>
+          <Typography>{user && user.name}</Typography>
         </>
       )}
 
       {!isLoggedIn && (
         <>
-          <Link to="/signup">
-            {" "}
-            <button>Sign Up</button>{" "}
-          </Link>
-          <Link to="/login">
-            {" "}
-            <button>Login</button>{" "}
-          </Link>
+          <Box sx={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+            <Link to="/signup">
+              <Button variant="contained">Sign Up</Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="contained">Login</Button>
+            </Link>
+          </Box>
         </>
       )}
-    </nav>
+    </Box>
   );
 }
 

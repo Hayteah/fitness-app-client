@@ -2,9 +2,9 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
-import ProjectListPage from "./pages/ProjectListPage";
-import ProjectDetailsPage from "./pages/ProjectDetailsPage";
-import EditProjectPage from "./pages/EditProjectPage";
+import WorkoutListPage from "./pages/WorkoutListPage";
+import WorkoutDetailsPage from "./pages/WorkoutDetailsPage";
+import EditWorkoutPage from "./pages/EditWorkoutPage";
 
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -20,18 +20,18 @@ function App() {
         <Route path="/" element={<HomePage />} />
 
         <Route
-          path="/projects"
-          element={ <IsPrivate> <ProjectListPage /> </IsPrivate> } 
+          path="/workouts"
+          element={ <IsPrivate> <WorkoutListPage /> </IsPrivate> } 
         />
 
         <Route
-          path="/projects/:projectId"
-          element={ <IsPrivate> <ProjectDetailsPage /> </IsPrivate> }
+          path="/workouts/:workoutId"
+          element={ <IsPrivate> <WorkoutDetailsPage /> </IsPrivate> }
         />
 
         <Route
-          path="/projects/edit/:projectId"
-          element={ <IsPrivate> <EditProjectPage /> </IsPrivate> } 
+          path="/workouts/edit/:workoutId"
+          element={ <IsPrivate> <EditWorkoutPage /> </IsPrivate> } 
         />
         
         <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>} />

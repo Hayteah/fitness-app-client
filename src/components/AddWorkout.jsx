@@ -3,36 +3,36 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5005";
 
-function AddTask(props) {
+function AddWorkout(props) {
   const [title, setTitle] = useState("");
   const [reps, setReps] = useState("");
   const [load, setLoad] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const requestBody = { title, reps, load };
 
-    const { workoutId } = props;
-    const requestBody = { title, reps, load, workoutId };
-
+    // Get the token from the localStorage
     const storedToken = localStorage.getItem("authToken");
 
+    // Send the token through the request "Authorization" Headers
     axios
-      .post(`${API_URL}/api/tasks`, requestBody, {
+      .post(`${API_URL}/api/workouts`, requestBody, {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((response) => {
+        // Reset the state
         setTitle("");
         setReps("");
         setLoad("");
-
-        props.refreshWorkout();
+        props.refreshWorkouts();
       })
       .catch((error) => console.log(error));
   };
 
   return (
-    <div className="AddTask">
-      <h3>Add New Task</h3>
+    <div className="AddWorkout">
+      <h3>Add Workout</h3>
 
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
@@ -44,7 +44,7 @@ function AddTask(props) {
         />
 
         <label>Reps:</label>
-        <input
+        <textarea
           type="number"
           name="reps"
           value={reps}
@@ -52,17 +52,17 @@ function AddTask(props) {
         />
 
         <label>Load:</label>
-        <input
+        <textarea
           type="number"
           name="load"
           value={load}
           onChange={(e) => setLoad(e.target.value)}
         />
 
-        <button type="submit">Add Task</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
 }
 
-export default AddTask;
+export default AddWorkout;

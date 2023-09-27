@@ -4,72 +4,68 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const API_URL = "http://localhost:5005";
 
-function EditProjectPage(props) {
+function EditWorkoutPage(props) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [reps, setReps] = useState("");
+  const [load, setLoad] = useState("")
 
   const navigate =  useNavigate();
-  const { projectId } = useParams();
+  const { workoutId } = useParams();
   
   
   useEffect(() => {
-    // Get the token from the localStorage
     const storedToken = localStorage.getItem('authToken');
     
-    // Send the token through the request "Authorization" Headers 
     axios
       .get(
-        `${API_URL}/api/projects/${projectId}`,
+        `${API_URL}/api/workouts/${workoutId}`,
         { headers: { Authorization: `Bearer ${storedToken}` } }    
       )
       .then((response) => {
-        const oneProject = response.data;
-        setTitle(oneProject.title);
-        setDescription(oneProject.description);
+        const oneWorkout = response.data;
+        setTitle(oneWorkout.title);
+        setReps(oneWorkout.reps);
+        setLoad(oneWorkout.load)
       })
       .catch((error) => console.log(error));
     
-  }, [projectId]);
+  }, [workoutId]);
   
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const requestBody = { title, description };
+    const requestBody = { title, reps, load };
   
-    // Get the token from the localStorage
     const storedToken = localStorage.getItem('authToken');  
 
-    // Send the token through the request "Authorization" Headers   
     axios
       .put(
-        `${API_URL}/api/projects/${projectId}`,
+        `${API_URL}/api/workouts/${workoutId}`,
         requestBody,
         { headers: { Authorization: `Bearer ${storedToken}` } }              
       )
       .then((response) => {
-        navigate(`/projects/${projectId}`)
+        navigate(`/workouts/${workoutId}`)
       });
   };
   
   
-  const deleteProject = () => {
-    // Get the token from the localStorage
+  const deleteWorkout = () => {
     const storedToken = localStorage.getItem('authToken');      
     
-    // Send the token through the request "Authorization" Headers   
     axios
       .delete(
-        `${API_URL}/api/projects/${projectId}`,
+        `${API_URL}/api/workouts/${workoutId}`,
         { headers: { Authorization: `Bearer ${storedToken}` } }           
       )
-      .then(() => navigate("/projects"))
+      .then(() => navigate("/workouts"))
       .catch((err) => console.log(err));
   };  
 
   
   return (
-    <div className="EditProjectPage">
-      <h3>Edit the Project</h3>
+    <div className="EditWorkoutPage">
+      <h3>Edit Workout</h3>
 
       <form onSubmit={handleFormSubmit}>
         <label>Title:</label>
@@ -80,19 +76,26 @@ function EditProjectPage(props) {
           onChange={(e) => setTitle(e.target.value)}
         />
         
-        <label>Description:</label>
+        <label>Reps:</label>
         <textarea
-          name="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          name="reps"
+          value={reps}
+          onChange={(e) => setReps(e.target.value)}
         />
 
-        <button type="submit">Update Project</button>
+<label>Load:</label>
+        <textarea
+          name="load"
+          value={load}
+          onChange={(e) => setLoad(e.target.value)}
+        />
+
+        <button type="submit">Update Workout</button>
       </form>
 
-      <button onClick={deleteProject}>Delete Project</button>
+      <button onClick={deleteWorkout}>Delete Workout</button>
     </div>
   );
 }
 
-export default EditProjectPage;
+export default EditWorkoutPage;
