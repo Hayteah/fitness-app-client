@@ -1,68 +1,59 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5005";
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 function EditWorkoutPage(props) {
   const [title, setTitle] = useState("");
   const [reps, setReps] = useState("");
-  const [load, setLoad] = useState("")
+  const [load, setLoad] = useState("");
 
-  const navigate =  useNavigate();
+  const navigate = useNavigate();
   const { workoutId } = useParams();
-  
-  
+
   useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
-    
+    const storedToken = localStorage.getItem("authToken");
+
     axios
-      .get(
-        `${API_URL}/api/workouts/${workoutId}`,
-        { headers: { Authorization: `Bearer ${storedToken}` } }    
-      )
+      .get(`${API_URL}/api/workouts/${workoutId}`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then((response) => {
         const oneWorkout = response.data;
         setTitle(oneWorkout.title);
         setReps(oneWorkout.reps);
-        setLoad(oneWorkout.load)
+        setLoad(oneWorkout.load);
       })
       .catch((error) => console.log(error));
-    
   }, [workoutId]);
-  
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const requestBody = { title, reps, load };
-  
-    const storedToken = localStorage.getItem('authToken');  
+
+    const storedToken = localStorage.getItem("authToken");
 
     axios
-      .put(
-        `${API_URL}/api/workouts/${workoutId}`,
-        requestBody,
-        { headers: { Authorization: `Bearer ${storedToken}` } }              
-      )
+      .put(`${API_URL}/api/workouts/${workoutId}`, requestBody, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then((response) => {
-        navigate(`/workouts/${workoutId}`)
+        navigate(`/workouts/${workoutId}`);
       });
   };
-  
-  
+
   const deleteWorkout = () => {
-    const storedToken = localStorage.getItem('authToken');      
-    
+    const storedToken = localStorage.getItem("authToken");
+
     axios
-      .delete(
-        `${API_URL}/api/workouts/${workoutId}`,
-        { headers: { Authorization: `Bearer ${storedToken}` } }           
-      )
+      .delete(`${API_URL}/api/workouts/${workoutId}`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then(() => navigate("/workouts"))
       .catch((err) => console.log(err));
-  };  
+  };
 
-  
   return (
     <div className="EditWorkoutPage">
       <h3>Edit Workout</h3>
@@ -75,7 +66,7 @@ function EditWorkoutPage(props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        
+
         <label>Reps:</label>
         <textarea
           name="reps"
@@ -83,7 +74,7 @@ function EditWorkoutPage(props) {
           onChange={(e) => setReps(e.target.value)}
         />
 
-<label>Load:</label>
+        <label>Load:</label>
         <textarea
           name="load"
           value={load}

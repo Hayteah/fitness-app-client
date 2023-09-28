@@ -3,7 +3,7 @@ function TaskCard({ title, reps, load }) {
   return (
     <div className="TaskCard card">
       <h3>{title}</h3>
-      <h4>Reps:</h4>
+      <h4>Reps in (kg):</h4>
       <p>{reps}</p>
       <h4>Load:</h4>
 

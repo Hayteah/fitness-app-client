@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Grid, Box, Typography, Stack } from "@mui/material";
 
 import HeroBannerImage from "../assets/images/banner.jpg";
+import SearchExercises from "../components/SearchExercises";
 
 function HomePage() {
   return (
@@ -14,8 +15,8 @@ function HomePage() {
               ml: { sm: "50px" },
               position: "relative",
               p: "20px",
-              height: "100%", // Ensure left side content takes full height
-              textAlign: "left", // Align text to the left
+              height: "100%",
+              textAlign: "left",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -77,6 +78,7 @@ function HomePage() {
           />
         </Grid>
       </Grid>
+      <SearchExercises />
     </Container>
   );
 }
