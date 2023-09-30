@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react"
+import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import { Button, Typography, Box } from "@mui/material";
+import { Button, Typography, Box, Avatar } from "@mui/material";
 
 function Navbar() {
- 
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const checkThisButtton = () => {
     console.log("I am working!");
@@ -30,10 +29,16 @@ function Navbar() {
             </Button>
           </Link>
 
+          <Link to="/userprofile"></Link>
+
           <Button variant="contained" onClick={logOutUser}>
             Logout
           </Button>
-          <Typography>{user && user.name}</Typography>
+          <Link to="/userprofile">
+            <Button variant="contained" onClick={logOutUser}>
+              UserProfile
+            </Button>
+          </Link>
         </>
       )}
 

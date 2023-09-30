@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import WorkoutListPage from "./pages/WorkoutListPage";
 import WorkoutDetailsPage from "./pages/WorkoutDetailsPage";
 import EditWorkoutPage from "./pages/EditWorkoutPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -16,27 +17,57 @@ function App() {
     <div className="App">
       <Navbar />
 
-      <Routes>      
+      <Routes>
         <Route path="/" element={<HomePage />} />
 
         <Route
           path="/workouts"
-          element={ <IsPrivate> <WorkoutListPage /> </IsPrivate> } 
+          element={
+            <IsPrivate>
+              {" "}
+              <WorkoutListPage />{" "}
+            </IsPrivate>
+          }
         />
 
         <Route
           path="/workouts/:workoutId"
-          element={ <IsPrivate> <WorkoutDetailsPage /> </IsPrivate> }
+          element={
+            <IsPrivate>
+              {" "}
+              <WorkoutDetailsPage />{" "}
+            </IsPrivate>
+          }
         />
 
         <Route
           path="/workouts/edit/:workoutId"
-          element={ <IsPrivate> <EditWorkoutPage /> </IsPrivate> } 
+          element={
+            <IsPrivate>
+              {" "}
+              <EditWorkoutPage />{" "}
+            </IsPrivate>
+          }
         />
-        
-        <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>} />
-        <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
 
+        <Route
+          path="/signup"
+          element={
+            <IsAnon>
+            
+              <SignupPage />{" "}
+            </IsAnon>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <IsAnon>
+              <LoginPage />
+            </IsAnon>
+          }
+        />
+        <Route path="/userprofile" element={<UserProfilePage />} />
       </Routes>
     </div>
   );

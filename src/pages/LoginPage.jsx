@@ -9,10 +9,9 @@ function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-
   const navigate = useNavigate();
 
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, authenticateUser, User } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -25,11 +24,17 @@ function LoginPage(props) {
       .post(`${API_URL}/auth/login`, requestBody)
       .then((response) => {
         console.log("JWT token", response.data.authToken);
-
+        console.log(response);
+        console.log(response.data.foundUser);
         storeToken(response.data.authToken);
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(response.data.foundUser)
+        );
         authenticateUser();
         navigate("/");
       })
+
       .catch((error) => {
         const errorDescription = error.response.data.message;
         setErrorMessage(errorDescription);
