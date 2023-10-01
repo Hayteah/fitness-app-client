@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -6,15 +7,21 @@ const API_URL = import.meta.env.VITE_SERVER_URL;
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const storeToken = (token) => {
+  const isLoggedIn = user !== null;
+
+  const storeUserData = (token, user) => {
+    setUser(user);
     localStorage.setItem("authToken", token);
+    // localStorage.setItem("userInfo", JSON.stringify(user));
   };
 
   const authenticateUser = () => {
+    setIsLoading(true);
     // Get the stored token from the localStorage
     const storedToken = localStorage.getItem("authToken");
 
@@ -22,40 +29,45 @@ function AuthProviderWrapper(props) {
     if (storedToken) {
       // We must send the JWT token in the request's "Authorization" Headers
       axios
-        .get(`${API_URL}/auth/verify`, {
+        .get(`${API_URL}/userprofile`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         })
         .then((response) => {
           // If the server verifies that JWT token is valid  ✅
-          const user = response.data;
+          const user = response.data.user;
           // Update state variables
-          setIsLoggedIn(true);
           setIsLoading(false);
           setUser(user);
         })
         .catch((error) => {
           // If the server sends an error response (invalid token) ❌
           // Update state variables
-          setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);
         });
-    } else {
-      // If the token is not available
-      setIsLoggedIn(false);
-      setIsLoading(false);
-      setUser(null);
     }
+    setIsLoading(false);
   };
 
-  const removeToken = () => {
-    // Upon logout, remove the token from the localStorage
-    localStorage.removeItem("authToken");
+  const login = (email, password) => {
+    axios
+      .post(`${API_URL}/auth/login`, { email, password })
+      .then((response) => {
+        console.log("login", response);
+        storeUserData(response.data.authToken, response.data.foundUser);
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorDescription = error.response.data.message;
+        setErrorMessage(errorDescription);
+      });
   };
 
   const logOutUser = () => {
-    removeToken();
-    authenticateUser();
+    setUser(null);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userInfo");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -70,9 +82,9 @@ function AuthProviderWrapper(props) {
         isLoggedIn,
         isLoading,
         user,
-        storeToken,
-        authenticateUser,
         logOutUser,
+        login,
+        errorMessage,
       }}
     >
       {props.children}

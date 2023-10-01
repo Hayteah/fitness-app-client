@@ -35,7 +35,7 @@ function Navbar() {
             Logout
           </Button>
           <Link to="/userprofile">
-            <Button variant="contained" onClick={logOutUser}>
+            <Button variant="contained">
               UserProfile
             </Button>
           </Link>

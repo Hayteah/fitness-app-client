@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -8,37 +8,16 @@ const API_URL = import.meta.env.VITE_SERVER_URL;
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
-  const navigate = useNavigate();
 
-  const { storeToken, authenticateUser, User } = useContext(AuthContext);
+  const { login, errorMessage } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const requestBody = { email, password };
 
-    axios
-      .post(`${API_URL}/auth/login`, requestBody)
-      .then((response) => {
-        console.log("JWT token", response.data.authToken);
-        console.log(response);
-        console.log(response.data.foundUser);
-        storeToken(response.data.authToken);
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(response.data.foundUser)
-        );
-        authenticateUser();
-        navigate("/");
-      })
-
-      .catch((error) => {
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
-      });
+    login(email, password);
   };
 
   return (
@@ -46,6 +25,7 @@ function LoginPage(props) {
       <h1>Login</h1>
 
       <form onSubmit={handleLoginSubmit}>
+        {errorMessage && <p>Error: {errorMessage}</p>}
         <label>Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmail} />
 
@@ -55,6 +35,8 @@ function LoginPage(props) {
           name="password"
           value={password}
           onChange={handlePassword}
+          minlength="6"
+          required
         />
 
         <button type="submit">Login</button>
