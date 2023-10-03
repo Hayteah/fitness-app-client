@@ -6,6 +6,7 @@ import WorkoutListPage from "./pages/WorkoutListPage";
 import WorkoutDetailsPage from "./pages/WorkoutDetailsPage";
 import EditWorkoutPage from "./pages/EditWorkoutPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import ExerciseDetail from "./pages/ExerciseDetail";
 
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -44,8 +45,7 @@ function App() {
           path="/workouts/edit/:workoutId"
           element={
             <IsPrivate>
-              {" "}
-              <EditWorkoutPage />{" "}
+              <EditWorkoutPage />
             </IsPrivate>
           }
         />
@@ -54,7 +54,6 @@ function App() {
           path="/signup"
           element={
             <IsAnon>
-            
               <SignupPage />{" "}
             </IsAnon>
           }
@@ -68,6 +67,8 @@ function App() {
           }
         />
         <Route path="/userprofile" element={<UserProfilePage />} />
+
+        <Route path="/exercise/:exerciseId" element={<ExerciseDetail />} />
       </Routes>
     </div>
   );

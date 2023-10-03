@@ -31,13 +31,14 @@ function Navbar() {
 
           <Link to="/userprofile"></Link>
 
-          <Button variant="contained" onClick={logOutUser}>
-            Logout
-          </Button>
-          <Link to="/userprofile">
-            <Button variant="contained">
-              UserProfile
+          <Link to="/">
+            <Button variant="contained" onClick={logOutUser}>
+              Logout
             </Button>
+          </Link>
+
+          <Link to="/userprofile">
+            <Button variant="contained">UserProfile</Button>
           </Link>
         </>
       )}

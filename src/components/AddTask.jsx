@@ -8,6 +8,9 @@ function AddTask(props) {
   const [reps, setReps] = useState("");
   const [load, setLoad] = useState("");
 
+  const repsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Example reps options
+  const loadOptions = [5, 10, 15, 20, 25, 30, 35, 40]; // Example load options in kg
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,7 +35,7 @@ function AddTask(props) {
 
   return (
     <div className="AddTask">
-      <h3>Add New Task</h3>
+      <h3>Add New Exercise</h3>
 
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
@@ -43,23 +46,27 @@ function AddTask(props) {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label>Reps:</label>
-        <input
-          type="number"
-          name="reps"
-          value={reps}
-          onChange={(e) => setReps(e.target.value)}
-        />
+        <label>Reps :</label>
+        <select value={reps} onChange={(e) => setReps(e.target.value)}>
+          <option value="">Select Reps</option>
+          {repsOptions.map((rep, index) => (
+            <option key={index} value={rep}>
+              {rep}
+            </option>
+          ))}
+        </select>
 
-        <label>Load:</label>
-        <input
-          type="number"
-          name="load"
-          value={load}
-          onChange={(e) => setLoad(e.target.value)}
-        />
+        <label>Load in (kg):</label>
+        <select value={load} onChange={(e) => setLoad(e.target.value)}>
+          <option value="">Select Load</option>
+          {loadOptions.map((weight, index) => (
+            <option key={index} value={weight}>
+              {weight}
+            </option>
+          ))}
+        </select>
 
-        <button type="submit">Add Task</button>
+        <button type="submit">Add Exercise</button>
       </form>
     </div>
   );

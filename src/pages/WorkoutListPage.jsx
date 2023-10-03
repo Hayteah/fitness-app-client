@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/WorkoutCard";
+
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -9,10 +10,7 @@ function WorkoutListPage() {
   const [workouts, setWorkouts] = useState([]);
 
   const getAllWorkouts = () => {
-    // Get the token from the localStorage
     const storedToken = localStorage.getItem("authToken");
-
-    // Send the token through the request "Authorization" Headers
     axios
       .get(`${API_URL}/api/workouts`, {
         headers: { Authorization: `Bearer ${storedToken}` },
@@ -21,19 +19,25 @@ function WorkoutListPage() {
       .catch((error) => console.log(error));
   };
 
-  // We set this effect will run only once, after the initial render
-  // by setting the empty dependency array - []
   useEffect(() => {
     getAllWorkouts();
   }, []);
 
   return (
-    <div className="WorkoutListPage">
-      <AddWorkout refreshWorkouts={getAllWorkouts} />
+    <div className="container">
+      <div className="paper">
+        <h2>Workout List</h2>
+       
+        <AddWorkout refreshWorkouts={getAllWorkouts} />
+      </div>
 
-      {workouts.map((workout) => (
-        <WorkoutCard key={workout._id} {...workout} />
-      ))}
+      <div className="cardContainer">
+        {workouts.map((workout) => (
+          <div key={workout._id} className="card">
+            <WorkoutCard {...workout} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
