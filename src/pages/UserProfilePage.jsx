@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
+import { Box, Button, Typography, TextField } from "@mui/material";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -21,7 +22,6 @@ function ProfilePage() {
         name: user.name,
         email: user.email,
         image: user.avatar,
-
       });
     }
   }, [user]);
@@ -57,7 +57,6 @@ function ProfilePage() {
     const formData = new FormData();
     formData.append("email", updatedUser.email);
     formData.append("name", updatedUser.name);
-    // formData.append("avatar", avatar);
     if (updatedUser.imageFile) {
       formData.append("avatar", updatedUser.imageFile);
     }
@@ -67,74 +66,90 @@ function ProfilePage() {
       })
       .then((res) => {
         handleProfileFetch();
-        setShowEditForm(false);
+        setIsFormEditable(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  if (!user) {
-    return null;
-  }
-
   const onEditButtonClick = () => {
     setIsFormEditable(!isFormEditable);
   };
 
-  console.log(updatedUser, " state");
-
   return (
-    <div className="ProfileContainer">
-      <form onSubmit={handleUpdateProfile} className="ProfileContentWrapper">
-        <div>
-          {isFormEditable && (
-            <>
-              <label>Image:</label>
-              <input
-                readOnly={!isFormEditable}
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleInputChange}
+    <Box className="ProfileContainer" p={3}>
+      <Typography variant="h2" mb={2}>
+        Welcome, {user && user.name}!
+      </Typography>
+
+      <Box
+        width={600}
+        height={600}
+        p={3}
+        border="1px solid #ccc"
+        borderRadius={4}
+      >
+        <form onSubmit={handleUpdateProfile} className="ProfileContentWrapper">
+          <Box mb={2}>
+            {isFormEditable && (
+              <>
+                <label>Image:</label>
+                <input
+                  readOnly={!isFormEditable}
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleInputChange}
+                />
+              </>
+            )}
+            {updatedUser.image && (
+              <img
+                src={updatedUser.image}
+                width="200px"
+                height="200px"
+                alt="Profile"
               />
-            </>
-          )}
-          {updatedUser.image && (
-            <img src={updatedUser.image} width="200px" height="200px" />
-          )}
-        </div>
-        <div>
-          <label>Name:</label>
-          <input
-            readOnly={!isFormEditable}
-            type="text"
-            name="name"
-            value={updatedUser.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            readOnly={!isFormEditable}
-            type="email"
-            name="email"
-            value={updatedUser.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        {isFormEditable ? (
-          <button type="submit">Save Changes</button>
-        ) : (
-          <input
-            type="button"
-            onClick={onEditButtonClick}
-            value="Edit Profile"
-          />
-        )}
-      </form>
-    </div>
+            )}
+          </Box>
+          <Box mb={2}>
+            <label>Name:</label>
+            <TextField
+              variant="outlined"
+              fullWidth
+              readOnly={!isFormEditable}
+              name="name"
+              value={updatedUser.name}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Box mb={2}>
+            <label>Email:</label>
+            <TextField
+              variant="outlined"
+              fullWidth
+              readOnly={!isFormEditable}
+              type="email"
+              name="email"
+              value={updatedUser.email}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Box mt={2}>
+            {isFormEditable ? (
+              <Button type="submit" variant="contained">
+                Save Changes
+              </Button>
+            ) : (
+              <Button variant="outlined" onClick={onEditButtonClick}>
+                Edit Profile
+              </Button>
+            )}
+          </Box>
+        </form>
+      </Box>
+    </Box>
   );
 }
 

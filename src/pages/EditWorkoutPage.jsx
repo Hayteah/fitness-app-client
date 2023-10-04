@@ -1,6 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -55,37 +63,81 @@ function EditWorkoutPage(props) {
   };
 
   return (
-    <div className="EditWorkoutPage">
-      <h3>Edit Workout</h3>
+    <Box
+      className="EditWorkoutPageContainer"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Box className="EditWorkoutPage" p={3} sx={{ width: 400 }}>
+        <Typography variant="h5" mb={2}>
+          Edit Workout
+        </Typography>
 
-      <form onSubmit={handleFormSubmit}>
-        <label>Title:</label>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <form onSubmit={handleFormSubmit}>
+          <TextField
+            label="Title"
+            variant="outlined"
+            fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            margin="normal"
+          />
 
-        <label>Reps:</label>
-        <textarea
-          name="reps"
-          value={reps}
-          onChange={(e) => setReps(e.target.value)}
-        />
+          <Box mt={2}>
+            <Typography variant="body1">Reps:</Typography>
+            <Select
+              variant="outlined"
+              fullWidth
+              value={reps}
+              onChange={(e) => setReps(e.target.value)}
+            >
+              <MenuItem value="">Select Reps</MenuItem>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rep, index) => (
+                <MenuItem key={index} value={rep}>
+                  {rep}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
 
-        <label>Load:</label>
-        <textarea
-          name="load"
-          value={load}
-          onChange={(e) => setLoad(e.target.value)}
-        />
+          <Box mt={2}>
+            <Typography variant="body1">Load:</Typography>
+            <Select
+              variant="outlined"
+              fullWidth
+              value={load}
+              onChange={(e) => setLoad(e.target.value)}
+            >
+              <MenuItem value="">Select Load</MenuItem>
+              {[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70].map(
+                (weight, index) => (
+                  <MenuItem key={index} value={weight}>
+                    {weight}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+          </Box>
 
-        <button type="submit">Update Workout</button>
-      </form>
+          <Button variant="contained" type="submit" fullWidth sx={{ mt: 2 }}>
+            Update Workout
+          </Button>
+        </form>
 
-      <button onClick={deleteWorkout}>Delete Workout</button>
-    </div>
+        <Button
+          variant="outlined"
+          onClick={deleteWorkout}
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          Delete Workout
+        </Button>
+      </Box>
+    </Box>
   );
 }
 

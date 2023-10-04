@@ -5,7 +5,6 @@ import HeroBannerImage from "../assets/images/banner.jpg";
 import SearchExercises from "../components/SearchExercises";
 import Exercises from "../components/Exercises";
 
-
 function HomePage() {
   const [exercises, setExercises] = useState([]);
   const [bodyPart, setBodyPart] = useState("all");
@@ -90,6 +89,7 @@ function HomePage() {
         </Grid>
         <SearchExercises
           setExercises={setExercises}
+          exercises={exercises}
           bodyPart={bodyPart}
           setBodyPart={setBodyPart}
         />

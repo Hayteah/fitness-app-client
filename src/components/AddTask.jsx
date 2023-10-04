@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -8,8 +9,8 @@ function AddTask(props) {
   const [reps, setReps] = useState("");
   const [load, setLoad] = useState("");
 
-  const repsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Example reps options
-  const loadOptions = [5, 10, 15, 20, 25, 30, 35, 40]; // Example load options in kg
+  const repsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  const loadOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,41 +35,62 @@ function AddTask(props) {
   };
 
   return (
-    <div className="AddTask">
-      <h3>Add New Exercise</h3>
+    <Box className="AddTaskContainer" sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box className="AddTask" sx={{ padding: 2, textAlign: "center", width: 600 }}>
+        <Typography variant="h5" mb={2}>
+          Add New Exercise
+        </Typography>
 
-      <form onSubmit={handleSubmit}>
-        <label>Title:</label>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Title"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-        <label>Reps :</label>
-        <select value={reps} onChange={(e) => setReps(e.target.value)}>
-          <option value="">Select Reps</option>
-          {repsOptions.map((rep, index) => (
-            <option key={index} value={rep}>
-              {rep}
-            </option>
-          ))}
-        </select>
+          <TextField
+            select
+            label="Reps"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={reps}
+            onChange={(e) => setReps(e.target.value)}
+          >
+            <MenuItem value="">Select Reps</MenuItem>
+            {repsOptions.map((rep, index) => (
+              <MenuItem key={index} value={rep}>
+                {rep}
+              </MenuItem>
+            ))}
+          </TextField>
 
-        <label>Load in (kg):</label>
-        <select value={load} onChange={(e) => setLoad(e.target.value)}>
-          <option value="">Select Load</option>
-          {loadOptions.map((weight, index) => (
-            <option key={index} value={weight}>
-              {weight}
-            </option>
-          ))}
-        </select>
+          <TextField
+            select
+            label="Load in (kg)"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={load}
+            onChange={(e) => setLoad(e.target.value)}
+          >
+            <MenuItem value="">Select Load in (kg)</MenuItem>
+            {loadOptions.map((weight, index) => (
+              <MenuItem key={index} value={weight}>
+                {weight}
+              </MenuItem>
+            ))}
+          </TextField>
 
-        <button type="submit">Add Exercise</button>
-      </form>
-    </div>
+          <Button variant="contained" type="submit" fullWidth>
+            Add Exercise
+          </Button>
+        </form>
+      </Box>
+    </Box>
   );
 }
 

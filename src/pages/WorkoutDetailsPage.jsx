@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import AddTask from "../components/AddTask";
+import { Box, Button, Typography } from "@mui/material";
+
 
 import TaskCard from "../components/TaskCard";
 
@@ -40,26 +42,28 @@ function WorkoutDetailsPage (props) {
     <div className="WorkoutDetails">
       {workout && (
         <>
-          <h1>{workout.title}</h1>
-          <p>{workout.reps}</p>
-          <p>{workout.load}</p>
-
+          <Typography variant="h1">{workout.title}</Typography>
+          <Typography variant="body1">{workout.reps}</Typography>
+          <Typography variant="body1">{workout.load}</Typography>
         </>
       )}
 
-      
-      <AddTask refreshWorkout={getWorkout} workoutId={workoutId} />          
+      <AddTask refreshWorkout={getWorkout} workoutId={workoutId} />
 
-      { workout && workout.tasks.map((task) => <TaskCard key={task._id} {...task} /> )} 
+      {workout &&
+        workout.tasks.map((task) => <TaskCard key={task._id} {...task} />)}
 
-      <Link to="/workouts">
-        <button>Back to workouts</button>
-      </Link>
-          
-      <Link to={`/workouts/edit/${workoutId}`}>
-        <button>Edit Workout</button>
-      </Link>
-      
+      <Box mt={2}>
+        <Link to="/workouts" style={{ textDecoration: "none" }}>
+          <Button variant="contained">Back to workouts</Button>
+        </Link>
+      </Box>
+
+      <Box mt={2}>
+        <Link to={`/workouts/edit/${workoutId}`} style={{ textDecoration: "none" }}>
+          <Button variant="contained">Edit Workout</Button>
+        </Link>
+      </Box>
     </div>
   );
 }

@@ -1,15 +1,36 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
-// We are deconstructing props object directly in the parentheses of the function
 function WorkoutCard({ title, reps, load, _id }) {
   return (
-    <div className="WorkoutCard card">
-      <Link to={`/workouts/${_id}`}>
-        <h3>{title}</h3>
+    <Box
+      className="WorkoutCard card"
+      p={2}
+      borderRadius={4}
+      boxShadow={2}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "200px",
+        marginRight: "20px",
+      }}
+    >
+      <Link
+        to={`/workouts/${_id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <Typography variant="h5" mb={1} style={{ color: "red" }}>
+          {title}
+        </Typography>
       </Link>
-      <p style={{ maxWidth: "400px" }}>{reps}</p>
-      <p style={{ maxWidth: "400px" }}> {load} </p>
-    </div>
+      <Typography variant="body1" mb={1} style={{ maxWidth: "400px" }}>
+        Reps: {reps}
+      </Typography>
+      <Typography variant="body1" style={{ maxWidth: "400px" }}>
+        Load: {load}
+      </Typography>
+    </Box>
   );
 }
 

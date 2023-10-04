@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -8,23 +9,20 @@ function AddWorkout(props) {
   const [reps, setReps] = useState("");
   const [load, setLoad] = useState("");
 
-  const repsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Example reps options
-  const loadOptions = [5, 10, 15, 20, 25, 30,35, 40, 45, 50,55, 60,65, 70,]; // Example load options
+  const repsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const loadOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70];
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const requestBody = { title, reps, load };
 
-    // Get the token from the localStorage
     const storedToken = localStorage.getItem("authToken");
 
-    // Send the token through the request "Authorization" Headers
     axios
       .post(`${API_URL}/api/workouts`, requestBody, {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((response) => {
-        // Reset the state
         setTitle("");
         setReps("");
         setLoad("");
@@ -34,41 +32,60 @@ function AddWorkout(props) {
   };
 
   return (
-    <div className="AddWorkout">
-      <h3>Add Workout</h3>
+    <Box className="AddWorkout" sx={{ p: 2 }}>
+      <Typography variant="h5" mb={2}>
+        Create New Workout
+      </Typography>
 
       <form onSubmit={handleSubmit}>
-        <label>Title:</label>
-        <input
-          type="text"
-          name="title"
+        <TextField
+          label="Title"
+          variant="outlined"
+          fullWidth
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          sx={{ mb: 2 }}
         />
 
-        <label>Reps:</label>
-        <select value={reps} onChange={(e) => setReps(e.target.value)}>
-          <option value="">Select Reps</option>
+        <Select
+          label="Reps"
+          variant="outlined"
+          value={reps}
+          onChange={(e) => setReps(e.target.value)}
+          fullWidth
+          displayEmpty
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value="" disabled>Select Reps</MenuItem>
           {repsOptions.map((rep, index) => (
-            <option key={index} value={rep}>
+            <MenuItem key={index} value={rep}>
               {rep}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
 
-        <label>Load:</label>
-        <select value={load} onChange={(e) => setLoad(e.target.value)}>
-          <option value="">Select Load</option>
+        <Select
+          label="Load in (kg)"
+          variant="outlined"
+          value={load}
+          onChange={(e) => setLoad(e.target.value)}
+          fullWidth
+          displayEmpty
+          sx={{ mb: 2 }}
+        >
+          <MenuItem value="" disabled>Select Load</MenuItem>
           {loadOptions.map((weight, index) => (
-            <option key={index} value={weight}>
+            <MenuItem key={index} value={weight}>
               {weight}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
 
-        <button type="submit">Submit</button>
+        <Button variant="contained" type="submit">
+          Add Workout
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 }
 
