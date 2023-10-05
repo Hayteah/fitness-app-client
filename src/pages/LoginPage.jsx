@@ -53,7 +53,7 @@ function LoginPage(props) {
             flexDirection: "column",
             alignItems: "center",
             backgroundColor: transparentBackground,
-            backdropFilter: "blur(10px)", // Apply blur effect for a glass-like appearance
+            backdropFilter: "blur(10px)", 
             borderRadius: 16,
             boxShadow: 5,
             padding: "20px",

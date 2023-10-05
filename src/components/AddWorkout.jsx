@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+} from "@mui/material";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -56,7 +63,9 @@ function AddWorkout(props) {
           displayEmpty
           sx={{ mb: 2 }}
         >
-          <MenuItem value="" disabled>Select Reps</MenuItem>
+          <MenuItem value="" disabled>
+            Select Reps
+          </MenuItem>
           {repsOptions.map((rep, index) => (
             <MenuItem key={index} value={rep}>
               {rep}
@@ -73,7 +82,9 @@ function AddWorkout(props) {
           displayEmpty
           sx={{ mb: 2 }}
         >
-          <MenuItem value="" disabled>Select Load</MenuItem>
+          <MenuItem value="" disabled>
+            Select Load in (kg)
+          </MenuItem>
           {loadOptions.map((weight, index) => (
             <MenuItem key={index} value={weight}>
               {weight}
@@ -82,7 +93,7 @@ function AddWorkout(props) {
         </Select>
 
         <Button variant="contained" type="submit">
-          Add Workout
+          Create Workout
         </Button>
       </form>
     </Box>

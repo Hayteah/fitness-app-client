@@ -91,11 +91,19 @@ function ProfilePage() {
         borderRadius={4}
       >
         <form onSubmit={handleUpdateProfile} className="ProfileContentWrapper">
-          <Box mb={2}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column-reverse",
+              alignItems: "center",
+            }}
+            mb={2}
+          >
             {isFormEditable && (
               <>
                 <label>Image:</label>
                 <input
+                  style={{ width: "200px" }}
                   readOnly={!isFormEditable}
                   type="file"
                   name="image"
