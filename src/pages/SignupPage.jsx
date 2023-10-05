@@ -1,27 +1,20 @@
 import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Link,
-  Paper,
-} from "@mui/material";
+import { Box, Button, TextField, Typography, Link, Paper } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import backgroundImage from '../assets/images/background-signup.jpg'
+import backgroundImage from "../assets/images/background-signup.jpg";
 
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   padding: "20px",
-  backgroundImage: `url(${backgroundImage})`, 
+  backgroundImage: `url(${backgroundImage})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  minHeight: "100vh", 
+  minHeight: "100vh",
 };
 
 const paperStyle = {
@@ -31,11 +24,10 @@ const paperStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  backgroundColor: "rgba(255, 255, 255, 0.8)", 
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
 };
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
-
 
 function SignupPage(props) {
   const [email, setEmail] = useState("");

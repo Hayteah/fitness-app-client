@@ -19,7 +19,14 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            <IsPrivate>
+              <HomePage />
+            </IsPrivate>
+          }
+        />
 
         <Route
           path="/workouts"
@@ -66,9 +73,23 @@ function App() {
             </IsAnon>
           }
         />
-        <Route path="/userprofile" element={<UserProfilePage />} />
+        <Route
+          path="/userprofile"
+          element={
+            <IsPrivate>
+              <UserProfilePage />
+            </IsPrivate>
+          }
+        />
 
-        <Route path="/exercise/:exerciseId" element={<ExerciseDetail />} />
+        <Route
+          path="/exercise/:exerciseId"
+          element={
+            <IsPrivate>
+              <ExerciseDetail />
+            </IsPrivate>
+          }
+        />
       </Routes>
     </div>
   );
